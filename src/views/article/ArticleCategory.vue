@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <RouterView />
+  <div>文章分类</div>
 </template>
 
 <style scoped></style>

@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <RouterView />
+  <div>用户密码</div>
 </template>
 
 <style scoped></style>
