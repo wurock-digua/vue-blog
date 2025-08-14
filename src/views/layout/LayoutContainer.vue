@@ -3,6 +3,7 @@ import { CaretBottom } from '@element-plus/icons-vue';
 import { useUserStore } from '@/stores/modules/user';
 import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import { ElMessageBox } from 'element-plus';
 
 // 获取用户信息
 const userStore = useUserStore();
@@ -10,8 +11,13 @@ onMounted(() => {
   userStore.getUser();
 });
 const router = useRouter();
-const handleCommand = (command) => {
+const handleCommand = async (command) => {
   if (command === 'logout') {
+    await ElMessageBox.confirm('是否确认退出登录？', '提示', {
+      confirmButtonText: '确认',
+      cancelButtonText: '取消',
+      type: 'warning',
+    });
     userStore.removeToken();
     userStore.setUser({});
     router.push('/login');

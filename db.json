@@ -1,28 +1,26 @@
 {
-  "__comment-01": "用户登录数据",
-  "login": [
+  "__comment-02": "文章分类",
+  "category": [
     {
       "id": 1,
-      "username": "testuser",
-      "password": "123456"
+      "categoryName": "历史",
+      "categoryAlias": "ls",
+      "createTime": "2022-01-01 12:00:00",
+      "updateTime": "2022-01-01 12:00:00"
     },
     {
       "id": 2,
-      "username": "testuser2",
-      "password": "123456"
+      "categoryName": "地理",
+      "categoryAlias": "dl",
+      "createTime": "2022-01-01 12:00:00",
+      "updateTime": "2022-01-01 12:00:00"
     },
     {
       "id": 3,
-      "username": "testuser3",
-      "password": "123456"
+      "categoryName": "生物",
+      "categoryAlias": "sw",
+      "createTime": "2022-01-01 12:00:00",
+      "updateTime": "2022-01-01 12:00:00"
     }
-  ],
-
-  "__comment-02": "用户信息",
-  "user": {
-    "id": 1,
-    "username": "testuser",
-    "nickname": "",
-    "userPic": "https://example.com/avatar.jpg"
-  }
+  ]
 }
