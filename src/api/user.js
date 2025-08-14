@@ -9,3 +9,8 @@ export const userLoginService = (data) => {
 export const userRegisterService = (data) => {
   return request.post('/user/register', data)
 }
+
+// 获取用户信息
+export const userGetInfoService = () => {
+  return request.get('/user/userInfo')
+}
