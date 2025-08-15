@@ -28,7 +28,7 @@
   
   .profile-content {
     text-align: center;
-    padding: 40px 0;
+    padding: 60px 0;
     
     p {
       font-size: 16px;

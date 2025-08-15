@@ -23,4 +23,23 @@ defineProps({
   </el-card>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.page-container {
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    span {
+      font-size: 18px;
+      font-weight: 600;
+      color: #495057;
+    }
+    
+    .extra {
+      display: flex;
+      align-items: center;
+    }
+  }
+}
+</style>

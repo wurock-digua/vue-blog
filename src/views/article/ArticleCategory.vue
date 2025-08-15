@@ -54,21 +54,21 @@ const onDeleteCategory = (row) => {
       <el-button type="primary" @click="onAddCategory"> 添加分类 </el-button>
     </template>
 
-    <el-table :data="categoryList">
+    <el-table :data="categoryList" stripe>
       <el-table-column type="index" label="序号" width="80"></el-table-column>
       <el-table-column prop="categoryName" label="分类名称"></el-table-column>
       <el-table-column prop="categoryAlias" label="分类别名"></el-table-column>
       <el-table-column prop="createTime" label="创建时间"></el-table-column>
       <el-table-column prop="updateTime" label="更新时间"></el-table-column>
       <el-table-column label="操作" width="180">
-        <template #default="{ row, $index }">
-          <el-button circle type="primary" @click="onEditCategory(row, $index)">
+        <template #default="{ row }">
+          <el-button circle type="primary" @click="onEditCategory(row)">
             <el-icon>
               <Edit />
             </el-icon>
           </el-button>
 
-          <el-button circle type="primary" @click="onDeleteCategory(row, $index)">
+          <el-button circle type="danger" @click="onDeleteCategory(row)">
             <el-icon>
               <Delete />
             </el-icon>

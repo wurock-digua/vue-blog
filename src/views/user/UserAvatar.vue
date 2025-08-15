@@ -17,6 +17,9 @@
 
 <style lang="scss" scoped>
 .user-avatar-card {
+  max-width: 800px;
+  margin: 0 auto;
+  
   .card-header {
     font-size: 18px;
     font-weight: 600;
@@ -25,7 +28,7 @@
   
   .avatar-content {
     text-align: center;
-    padding: 40px 0;
+    padding: 60px 0;
     
     p {
       font-size: 16px;

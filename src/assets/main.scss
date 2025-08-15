@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  background-color: #f8f9fa;
+  background-color: #f5f7fa;
   font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
   font-size: 14px;
   line-height: 1.6;
@@ -25,11 +25,11 @@ body {
 
 // 全局按钮样式优化
 .el-button {
-  border-radius: 6px;
+  border-radius: 0;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-weight: 500;
   letter-spacing: 0.5px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   
   &.el-button--primary {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -38,8 +38,8 @@ body {
     
     &:hover {
       background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
     }
     
     &:active {
@@ -58,8 +58,8 @@ body {
     
     &:hover {
       background: linear-gradient(135deg, #e64c4c 0%, #f56c6c 100%);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(245, 108, 108, 0.3);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(245, 108, 108, 0.3);
     }
     
     &:active {
@@ -87,14 +87,14 @@ body {
 
 // 全局卡片样式优化
 .el-card {
-  border-radius: 10px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  border-radius: 0;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
   transition: all 0.3s ease;
   border: none;
   
   &:hover {
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-    transform: translateY(-2px);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(0);
   }
 
   .el-card__header {
@@ -102,7 +102,7 @@ body {
     border-bottom: 1px solid #eee;
     font-weight: 600;
     color: #495057;
-    border-radius: 10px 10px 0 0;
+    border-radius: 0;
     padding: 18px 20px;
   }
   
@@ -124,7 +124,7 @@ body {
 
     .el-input__inner,
     .el-textarea__inner {
-      border-radius: 6px;
+      border-radius: 0;
       border: 1px solid #dcdfe6;
       transition: all 0.3s ease;
       padding: 12px 15px;
@@ -152,9 +152,9 @@ body {
 
 // 全局表格样式优化
 .el-table {
-  border-radius: 10px;
+  border-radius: 0;
   overflow: hidden;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
   
   .el-table__header th {
     background: linear-gradient(to right, #f8f9fa, #e9ecef);
@@ -178,9 +178,9 @@ body {
 
 // 全局对话框样式优化
 .el-dialog {
-  border-radius: 12px;
+  border-radius: 0;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
   
   .el-dialog__header {
     background: linear-gradient(to right, #f8f9fa, #e9ecef);
@@ -216,8 +216,8 @@ body {
   justify-content: center;
   
   .el-pager li {
-    border-radius: 6px;
-    margin: 0 3px;
+    border-radius: 0;
+    margin: 0 2px;
     
     &.is-active {
       background-color: #667eea;
@@ -226,6 +226,13 @@ body {
   
   .btn-prev,
   .btn-next {
-    border-radius: 6px;
+    border-radius: 0;
+  }
+}
+
+// 全局链接样式优化
+.el-link {
+  &:hover {
+    color: #764ba2;
   }
 }
