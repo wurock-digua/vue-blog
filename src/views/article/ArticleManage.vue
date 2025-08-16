@@ -146,6 +146,8 @@ const onEditArticle = (row) => {
 <style lang="scss" scoped>
 .search-card {
   margin-bottom: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
   
   :deep(.el-card__body) {
     padding: 20px;
@@ -157,6 +159,107 @@ const onEditArticle = (row) => {
   
   .search-select {
     width: 200px;
+  }
+}
+
+// 美化表格样式
+:deep(.el-table) {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  
+  .el-table__header th {
+    background-color: #f5f7fa;
+    color: #495057;
+    font-weight: 600;
+    padding: 15px 0;
+    text-align: center; /* 表头文字居中对齐 */
+  }
+  
+  .el-table__row {
+    transition: background-color 0.3s ease;
+    
+    &:hover {
+      background-color: #f8f9fa;
+    }
+  }
+  
+  .el-table__cell {
+    padding: 12px 0;
+    text-align: center; /* 单元格内容居中对齐 */
+  }
+}
+
+// 美化分页组件
+:deep(.el-pagination) {
+  margin-top: 25px;
+  display: flex;
+  justify-content: flex-end;
+  padding: 15px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  
+  .el-pager li {
+    border-radius: 4px;
+    margin: 0 2px;
+    
+    &.is-active {
+      background-color: #667eea;
+    }
+  }
+  
+  .btn-prev,
+  .btn-next {
+    border-radius: 4px;
+  }
+}
+
+// 美化按钮
+:deep(.el-button) {
+  &.el-button--primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    color: white;
+    
+    &:hover {
+      background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+    }
+  }
+  
+  &.el-button--danger {
+    background: linear-gradient(135deg, #f56c6c 0%, #e64c4c 100%);
+    border: none;
+    color: white;
+    
+    &:hover {
+      background: linear-gradient(135deg, #e64c4c 0%, #f56c6c 100%);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(245, 108, 108, 0.3);
+    }
+  }
+  
+  &.el-button--default {
+    border-color: #dcdfe6;
+    color: #606266;
+    background: white;
+    
+    &:hover {
+      border-color: #667eea;
+      color: #667eea;
+      transform: translateY(-1px);
+    }
+  }
+}
+
+// 美化链接
+:deep(.el-link) {
+  font-weight: 500;
+  
+  &:hover {
+    color: #764ba2;
   }
 }
 </style>
