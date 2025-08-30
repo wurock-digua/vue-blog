@@ -2,12 +2,20 @@ import request from '@/utils/request'
 
 // 登录接口
 export const userLoginService = (data) => {
-  return request.post('/user/login', data)
+  const params = new URLSearchParams()
+  for (const key in data) {
+    params.append(key, data[key])
+  }
+  return request.post('/user/login', params)
 }
 
 // 注册接口
 export const userRegisterService = (data) => {
-  return request.post('/user/register', data)
+  const params = new URLSearchParams()
+  for (const key in data) {
+    params.append(key, data[key])
+  }
+  return request.post('/user/register', params)
 }
 
 // 获取用户基本信息
@@ -29,3 +37,4 @@ export const userUpdateAvatarService = (data) => {
 export const userUpdatePasswordService = (data) => {
   return request.put('/user/updatePwd', data)
 }
+

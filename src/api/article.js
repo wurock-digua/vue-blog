@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 // 获取文章分类
 export const articleGetCategoryService = () => {
-  return request.get('/category')
+  return request.get('/article/category')
 }
 
 // 添加文章分类

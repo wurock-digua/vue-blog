@@ -4,6 +4,7 @@ import { useUserStore } from '@/stores/modules/user';
 import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { ElMessageBox } from 'element-plus';
+import avatar from '@/assets/default.png';
 
 // 获取用户信息
 const userStore = useUserStore();
@@ -11,6 +12,7 @@ onMounted(() => {
   userStore.getUser();
 });
 const router = useRouter();
+
 const handleCommand = async (command) => {
   if (command === 'logout') {
     await ElMessageBox.confirm('是否确认退出登录？', '提示', {
@@ -26,6 +28,7 @@ const handleCommand = async (command) => {
     router.push(`/user/${command}`);
   }
 }
+
 </script>
 
 <template>
