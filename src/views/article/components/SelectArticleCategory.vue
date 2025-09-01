@@ -6,7 +6,7 @@ import { articleGetCategoryService } from '@/api/article';
 const categoryList = ref([]);
 const getArticleCategory = async () => {
   const response = await articleGetCategoryService();
-  categoryList.value = response.data;
+  categoryList.value = response.data.data;
 };
 onMounted(() => {
   getArticleCategory();

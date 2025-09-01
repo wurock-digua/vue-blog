@@ -23,8 +23,10 @@ export const articleDeleteCategoryService = (id) => {
 }
 
 // 根据搜索条件获取文章列表
-export const articleGetListService = (data) => {
-  return request.get('/article', data)
+export const articleGetListService = (params) => {
+  return request.get('/article', {
+    params,
+  })
 }
 
 // 新增文章
@@ -46,5 +48,7 @@ export const articleDeleteService = (id) => {
 
 // 获取文章详情
 export const articleGetDetailService = (id) => {
-  return request.get(`/article/${id}`)
+  return request.get(`/article/detail`, {
+    params: { id },
+  })
 }

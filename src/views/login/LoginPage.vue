@@ -1,6 +1,5 @@
 <script setup>
-
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { watch } from 'vue';
 import { userLoginService, userRegisterService } from '@/api/user';
@@ -9,6 +8,7 @@ import { useUserStore } from '@/stores/modules/user';
 // 表单引用
 const formRef = ref();
 const isRegister = ref(false); // 控制显示注册或登录表单
+const rememberMe = ref(false); // 记住我功能
 
 // 表单数据模型
 const formModel = ref({
@@ -51,6 +51,17 @@ watch(isRegister, () => {
   }
 })
 
+// 页面加载时检查是否保存了登录信息
+onMounted(() => {
+  const savedLoginInfo = localStorage.getItem('loginInfo');
+  if (savedLoginInfo) {
+    const { username, password } = JSON.parse(savedLoginInfo);
+    formModel.value.username = username;
+    formModel.value.password = password;
+    rememberMe.value = true;
+  }
+})
+
 // 注册方法
 const onRegister = async () => {
   await formRef.value.validate(async (valid) => {
@@ -76,6 +87,19 @@ const userStore = useUserStore()
 const onLogin = async () => {
   await formRef.value.validate(async (valid) => {
     if (valid) {
+      // 处理记住我功能
+      if (rememberMe.value) {
+        // 保存登录信息到localStorage
+        const loginInfo = {
+          username: formModel.value.username,
+          password: formModel.value.password
+        };
+        localStorage.setItem('loginInfo', JSON.stringify(loginInfo));
+      } else {
+        // 清除保存的登录信息
+        localStorage.removeItem('loginInfo');
+      }
+      
       // 这里可以使用 await 调用登录接口
       const res = await userLoginService(formModel.value)
       if (res.data.code === 0) {
@@ -142,7 +166,7 @@ const onLogin = async () => {
 
           <el-form-item class="form-options">
             <div class="options-container">
-              <el-checkbox class="remember-checkbox">记住我</el-checkbox>
+              <el-checkbox v-model="rememberMe" class="remember-checkbox">记住我</el-checkbox>
               <el-link :underline="false" class="forgot-link">忘记密码？</el-link>
             </div>
           </el-form-item>
@@ -163,54 +187,33 @@ const onLogin = async () => {
 <style lang="scss" scoped>
 .login-background {
   height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-color: #f5f5f5;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-  overflow: hidden;
-
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="rgba(255,255,255,0.08)"/><circle cx="20" cy="20" r="5" fill="rgba(255,255,255,0.15)"/><circle cx="50" cy="50" r="8" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="80" r="3" fill="rgba(255,255,255,0.2)"/></svg>');
-    background-size: cover;
-    animation: float 12s ease-in-out infinite;
-  }
 
   .login-container {
-    position: relative;
-    z-index: 1;
     width: 100%;
-    max-width: 480px;
-    padding: 0 25px;
+    max-width: 400px;
+    padding: 0 20px;
 
     .login-box {
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 12px;
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
-      padding: 45px 40px;
-      animation: slideUp 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.3);
+      background: white;
+      border-radius: 4px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 30px;
 
       .form-title {
         text-align: center;
-        margin: 0 0 35px;
-        font-size: 34px;
-        font-weight: 700;
-        color: #495057;
-        letter-spacing: 1px;
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        margin: 0 0 20px;
+        font-size: 24px;
+        font-weight: 500;
+        color: #333;
       }
 
       .login-form {
         :deep(.el-form-item) {
-          margin-bottom: 26px;
+          margin-bottom: 20px;
 
           &:last-child {
             margin-bottom: 0;
@@ -222,31 +225,24 @@ const onLogin = async () => {
           }
 
           :deep(.el-input__wrapper) {
-            border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s ease;
-            background-color: #ffffff;
-
-            &:hover {
-              box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            }
-
+            border-radius: 4px;
+            box-shadow: 0 0 0 1px #dcdfe6 inset;
+            
             &.is-focus {
-              box-shadow: 0 4px 15px rgba(102, 126, 234, 0.25);
-              border: 1px solid #667eea;
+              box-shadow: 0 0 0 1px #409eff inset;
             }
           }
 
           :deep(.el-input__inner) {
-            height: 50px;
-            font-size: 16px;
+            height: 40px;
+            font-size: 14px;
             padding: 0 15px;
-            color: #495057;
+            color: #333;
           }
         }
 
         .form-options {
-          margin-bottom: 32px;
+          margin-bottom: 25px;
 
           :deep(.el-form-item__content) {
             flex-direction: row;
@@ -260,10 +256,6 @@ const onLogin = async () => {
           }
 
           .remember-checkbox {
-            :deep(.el-checkbox__input) {
-              line-height: 1;
-            }
-
             :deep(.el-checkbox__label) {
               color: #666;
               font-weight: 400;
@@ -271,12 +263,12 @@ const onLogin = async () => {
           }
 
           .forgot-link {
-            color: #667eea;
-            font-weight: 500;
-            transition: all 0.3s ease;
+            color: #409eff;
+            font-weight: 400;
+            transition: color 0.3s;
 
             &:hover {
-              color: #764ba2;
+              color: #333;
               text-decoration: none;
             }
           }
@@ -284,41 +276,35 @@ const onLogin = async () => {
 
         .submit-btn {
           width: 100%;
-          height: 52px;
-          font-size: 18px;
-          font-weight: 600;
-          letter-spacing: 1px;
-          border-radius: 8px;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          height: 40px;
+          font-size: 14px;
+          border-radius: 4px;
+          background-color: #409eff;
           border: none;
-          box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           color: white;
-          text-transform: uppercase;
+          transition: background-color 0.3s;
 
           &:hover {
-            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.5);
+            background-color: #66b1ff;
           }
 
           &:active {
-            transform: translateY(-1px);
+            background-color: #337ecc;
           }
         }
 
         .form-footer {
           text-align: center;
-          margin-top: 25px;
+          margin-top: 20px;
 
           :deep(.el-link) {
-            color: #667eea;
-            font-weight: 500;
-            font-size: 16px;
-            transition: all 0.3s ease;
+            color: #409eff;
+            font-weight: 400;
+            font-size: 14px;
+            transition: color 0.3s;
 
             &:hover {
-              color: #764ba2;
+              color: #333;
               text-decoration: none;
             }
           }
@@ -328,55 +314,28 @@ const onLogin = async () => {
   }
 }
 
-@keyframes float {
-  0% {
-    transform: translateY(0px) rotate(0deg);
-  }
-
-  50% {
-    transform: translateY(-25px) rotate(5deg);
-  }
-
-  100% {
-    transform: translateY(0px) rotate(0deg);
-  }
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 // 响应式设计
 @media (max-width: 768px) {
   .login-background {
     .login-container {
       .login-box {
-        padding: 35px 25px;
-        margin: 0 20px;
-        border-radius: 10px;
+        padding: 20px;
+        margin: 0 15px;
 
         .form-title {
-          font-size: 30px;
-          margin-bottom: 30px;
+          font-size: 22px;
+          margin-bottom: 15px;
         }
 
         .login-form {
           :deep(.el-input__inner) {
-            height: 48px;
-            font-size: 15px;
+            height: 38px;
+            font-size: 14px;
           }
 
           .submit-btn {
-            height: 48px;
-            font-size: 17px;
+            height: 38px;
+            font-size: 14px;
           }
         }
       }
@@ -390,11 +349,11 @@ const onLogin = async () => {
       padding: 0 15px;
 
       .login-box {
-        padding: 30px 20px;
+        padding: 20px;
 
         .form-title {
-          font-size: 26px;
-          margin-bottom: 25px;
+          font-size: 20px;
+          margin-bottom: 15px;
         }
       }
     }

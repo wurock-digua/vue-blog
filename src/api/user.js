@@ -29,12 +29,25 @@ export const userUpdateInfoService = (data) => {
 }
 
 // 更新用户头像
-export const userUpdateAvatarService = (data) => {
-  return request.put('/user/updateAvatar', data)
+export const userUpdateAvatarService = (avatarUrl) => {
+  return request.patch(
+    '/user/updateAvatar',
+    {
+      avatarUrl,
+    },
+    {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    },
+  )
 }
 
 // 更新用户密码
 export const userUpdatePasswordService = (data) => {
-  return request.put('/user/updatePwd', data)
+  return request.patch('/user/updatePwd', data, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
 }
-

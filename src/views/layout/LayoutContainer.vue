@@ -22,7 +22,7 @@ const handleCommand = async (command) => {
     });
     userStore.removeToken();
     userStore.setUser({});
-    router.push('/login');
+    router.push('/user/login');
   } else {
     // 跳转
     router.push(`/user/${command}`);
@@ -91,54 +91,47 @@ const handleCommand = async (command) => {
   height: 100vh;
 
   .el-aside {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-right: none;
-    width: 220px !important;
-    transition: all 0.3s ease;
+    background-color: #333;
+    border-right: 1px solid #e6e6e6;
+    width: 200px !important;
 
     .layout-title {
       text-align: center;
-      margin: 28px 0;
-      font-size: 26px;
-      color: #ffffff;
-      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-      font-weight: 700;
-      letter-spacing: 1px;
+      margin: 20px 0;
+      font-size: 20px;
+      color: #fff;
+      font-weight: 500;
     }
 
     .el-menu {
       border-right: none;
       background-color: transparent;
-      margin-top: 20px;
 
       :deep(.el-menu-item),
       :deep(.el-sub-menu__title) {
-        color: rgba(255, 255, 255, 0.85);
+        color: rgba(255, 255, 255, 0.8);
         border-radius: 0;
-        margin: 5px 0;
-        transition: all 0.3s ease;
 
         &:hover {
-          background-color: rgba(255, 255, 255, 0.15);
-          color: #ffffff;
+          background-color: rgba(255, 255, 255, 0.1);
+          color: #fff;
         }
 
         &.is-active {
-          background-color: rgba(255, 255, 255, 0.25);
-          color: #ffffff !important;
-          border-left: 4px solid rgba(255, 255, 255, 0.7);
+          background-color: #409eff;
+          color: #fff !important;
         }
       }
 
       :deep(.el-sub-menu) {
         .el-menu {
-          background-color: rgba(0, 0, 0, 0.1) !important;
+          background-color: #333 !important;
 
           .el-menu-item {
             background-color: transparent !important;
 
             &.is-active {
-              background-color: rgba(255, 255, 255, 0.2) !important;
+              background-color: #409eff !important;
             }
           }
         }
@@ -147,98 +140,77 @@ const handleCommand = async (command) => {
   }
 
   .el-header {
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    background-color: #fff;
     border-bottom: 1px solid #e6e6e6;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 25px;
-    color: #333333;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    height: 65px;
+    padding: 0 20px;
+    color: #333;
+    height: 60px;
 
     >span {
-      font-weight: 500;
-      font-size: 16px;
-      color: #495057;
+      font-weight: 400;
+      font-size: 14px;
+      color: #333;
     }
   }
 
   .el-main {
-    background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
-    padding: 25px;
-    min-height: calc(100vh - 130px);
-    overflow-x: hidden;
-
-    &::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background-color: rgba(102, 126, 234, 0.3);
-      border-radius: 3px;
-    }
+    background-color: #f5f5f5;
+    padding: 20px;
+    min-height: calc(100vh - 120px);
   }
 
   .el-footer {
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    background-color: #fff;
     border-top: 1px solid #e6e6e6;
     text-align: center;
-    color: #666666;
+    color: #666;
     font-size: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
-    height: 65px;
+    height: 60px;
   }
 
   .el-dropdown_box {
     display: flex;
     align-items: center;
     cursor: pointer;
-    padding: 8px 15px;
-    border-radius: 30px;
-    transition: all 0.3s ease;
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
 
     &:hover {
-      background-color: rgba(255, 255, 255, 0.3);
+      background-color: #f5f5f5;
     }
 
     .el-avatar {
-      margin-right: 12px;
-      border: 2px solid #ffffff;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+      margin-right: 10px;
+      border: 1px solid #eee;
     }
 
     .el-icon {
-      font-size: 16px;
-      transition: transform 0.3s ease;
-      color: #495057;
-    }
-
-    &:hover {
-      .el-icon {
-        transform: rotate(180deg);
-      }
+      font-size: 14px;
+      color: #333;
     }
   }
 
   :deep(.el-dropdown-menu) {
-    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    background-color: #fff;
     border: 1px solid #e6e6e6;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    padding: 8px 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    padding: 5px 0;
 
     .el-dropdown-item {
-      color: #495057;
-      padding: 10px 20px;
-      transition: all 0.2s ease;
+      color: #333;
+      padding: 8px 15px;
+      transition: background-color 0.2s;
 
       &:not(.is-disabled):hover {
-        background-color: rgba(102, 126, 234, 0.1);
-        color: #667eea;
+        background-color: #f5f5f5;
       }
     }
   }

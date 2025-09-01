@@ -63,3 +63,42 @@ const onSubmit = async () => {
     </template>
   </el-dialog>
 </template>
+
+<style lang="scss" scoped>
+:deep(.el-dialog) {
+  border-radius: 4px;
+  
+  .el-dialog__header {
+    padding: 15px;
+    background-color: #f5f7fa;
+    border-bottom: 1px solid #e6e6e6;
+    
+    .el-dialog__title {
+      font-size: 16px;
+      font-weight: 500;
+    }
+  }
+  
+  .el-dialog__body {
+    padding: 20px;
+  }
+  
+  .el-dialog__footer {
+    padding: 15px;
+    border-top: 1px solid #e6e6e6;
+  }
+}
+
+:deep(.el-button) {
+  &.el-button--primary {
+    background-color: #409eff;
+    border: 1px solid #409eff;
+    color: white;
+    
+    &:hover {
+      background-color: #66b1ff;
+      border-color: #66b1ff;
+    }
+  }
+}
+</style>

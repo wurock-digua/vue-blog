@@ -2,28 +2,43 @@
 import { ref, onMounted } from 'vue';
 import { Edit, Delete } from '@element-plus/icons-vue';
 import SelectArticleCategory from './components/SelectArticleCategory.vue';
-import { articleGetListService, articleDeleteService } from '@/api/article';
+import { articleGetListService, articleDeleteService, articleGetCategoryService } from '@/api/article';
 import { formatDate } from '@/utils/format';
 import EditArticle from './components/EditArticle.vue';
 import { ElMessageBox } from 'element-plus';
+import 'element-plus/theme-chalk/el-message-box.css'; // MessageBox 核心样式
 
 const articleList = ref([]);
 const total = ref(6);
 const params = ref({
   pageNum: 1,
   pageSize: 5,
-  categoryId: '',
+  categoryId: null,
   state: ''
 });
+
+// 获取文章分类列表
+const categoryList = ref([]);
+const getArticleCategoryList = async () => {
+  const res = await articleGetCategoryService();
+  categoryList.value = res.data.data;
+};
+
+// 根据ID获取分类名称
+const getCategoryName = (id) => {
+  const category = categoryList.value.find(item => item.id === id);
+  return category ? category.categoryName : '未知分类';
+};
 
 // 获取文章列表
 const getArticleList = async () => {
   const res = await articleGetListService(params.value)
-  articleList.value = res.data;
-  // total.value = res.total;
+  articleList.value = res.data.data.items;
+  total.value = res.data.data.total;
 }
 
 onMounted(async () => {
+  await getArticleCategoryList();
   await getArticleList();
 });
 
@@ -73,6 +88,19 @@ const onAddArticle = () => {
 const onEditArticle = (row) => {
   editArticleRef.value.open(row);
 };
+
+// 添加或编辑文章成功后回调
+const onSuccess = (type) => {
+  if (type === 'add') {
+    // 如果是添加渲染最后一页
+    const lastPage = Math.ceil((total.value + 1) / params.value.pageSize);
+    params.value.pageNum = lastPage; // 新增文章后，重置页码为最后一页
+    getArticleList();
+  } else if (type === 'edit') {
+    // 如果是编辑渲染当前页
+    getArticleList();
+  }
+};
 </script>
 
 <template>
@@ -109,7 +137,11 @@ const onEditArticle = (row) => {
           <el-link :underline="false" type="primary">{{ row.title }}</el-link>
         </template>
       </el-table-column>
-      <el-table-column prop="category" label="分类" />
+      <el-table-column prop="categoryId" label="分类">
+        <template #default="{ row }">
+          {{ getCategoryName(row.categoryId) }}
+        </template>
+      </el-table-column>
       <el-table-column prop="createTime" label="创建时间">
         <template #default="{ row }">
           {{ formatDate(row.createTime) }}
@@ -139,127 +171,122 @@ const onEditArticle = (row) => {
     </el-pagination>
 
     <!-- 添加/编辑文章弹框 -->
-    <edit-article ref="editArticleRef" @success="getArticleList" />
+    <edit-article ref="editArticleRef" @success="onSuccess" />
   </page-container>
 </template>
 
 <style lang="scss" scoped>
 .search-card {
   margin-bottom: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-  
+  border-radius: 4px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+
   :deep(.el-card__body) {
-    padding: 20px;
+    padding: 15px;
   }
-  
+
   :deep(.el-form-item) {
     margin-bottom: 0;
   }
-  
+
   .search-select {
-    width: 200px;
+    width: 180px;
   }
 }
 
-// 美化表格样式
+// 表格样式
 :deep(.el-table) {
-  border-radius: 8px;
+  border-radius: 4px;
   overflow: hidden;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-  
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+
   .el-table__header th {
     background-color: #f5f7fa;
-    color: #495057;
-    font-weight: 600;
-    padding: 15px 0;
-    text-align: center; /* 表头文字居中对齐 */
+    color: #606266;
+    font-weight: 500;
+    padding: 10px 0;
   }
-  
+
   .el-table__row {
-    transition: background-color 0.3s ease;
-    
+    transition: background-color 0.3s;
+
     &:hover {
-      background-color: #f8f9fa;
+      background-color: #f5f5f5;
     }
   }
-  
+
   .el-table__cell {
-    padding: 12px 0;
-    text-align: center; /* 单元格内容居中对齐 */
+    padding: 8px 0;
   }
 }
 
-// 美化分页组件
+// 分页组件
 :deep(.el-pagination) {
-  margin-top: 25px;
+  margin-top: 20px;
   display: flex;
   justify-content: flex-end;
-  padding: 15px;
+  padding: 10px;
   background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-  
+  border-radius: 4px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+
   .el-pager li {
-    border-radius: 4px;
-    margin: 0 2px;
-    
+    border-radius: 2px;
+    margin: 0 1px;
+
     &.is-active {
-      background-color: #667eea;
+      background-color: #409eff;
     }
   }
-  
+
   .btn-prev,
   .btn-next {
-    border-radius: 4px;
+    border-radius: 2px;
   }
 }
 
-// 美化按钮
+// 按钮样式
 :deep(.el-button) {
   &.el-button--primary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border: none;
+    background-color: #409eff;
+    border: 1px solid #409eff;
     color: white;
-    
+
     &:hover {
-      background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+      background-color: #66b1ff;
+      border-color: #66b1ff;
     }
   }
-  
+
   &.el-button--danger {
-    background: linear-gradient(135deg, #f56c6c 0%, #e64c4c 100%);
-    border: none;
+    background-color: #f56c6c;
+    border: 1px solid #f56c6c;
     color: white;
-    
+
     &:hover {
-      background: linear-gradient(135deg, #e64c4c 0%, #f56c6c 100%);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 8px rgba(245, 108, 108, 0.3);
+      background-color: #f78989;
+      border-color: #f78989;
     }
   }
-  
+
   &.el-button--default {
     border-color: #dcdfe6;
     color: #606266;
     background: white;
-    
+
     &:hover {
-      border-color: #667eea;
-      color: #667eea;
-      transform: translateY(-1px);
+      border-color: #409eff;
+      color: #409eff;
     }
   }
 }
 
-// 美化链接
+// 链接样式
 :deep(.el-link) {
-  font-weight: 500;
-  
+  font-weight: 400;
+
   &:hover {
-    color: #764ba2;
+    color: #409eff;
   }
 }
 </style>
