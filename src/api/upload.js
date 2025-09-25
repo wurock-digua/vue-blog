@@ -9,4 +9,5 @@ export const uploadFile = (file) => {
       'Content-Type': 'multipart/form-data',
     },
   })
+  // return request.post('/upload', formData)
 }

@@ -3,7 +3,8 @@ import { useUserStore } from '@/stores/modules/user'
 import router from '@/router'
 import { ElMessage } from 'element-plus'
 
-const baseURL = 'http://localhost:8080' // 设置为 json-server 地址
+// const baseURL = 'http://localhost:8080'
+const baseURL = '/api'
 
 const instance = axios.create({
   baseURL,

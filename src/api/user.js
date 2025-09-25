@@ -6,7 +6,9 @@ export const userLoginService = (data) => {
   for (const key in data) {
     params.append(key, data[key])
   }
-  return request.post('/user/login', params)
+  return request.post('/user/login', params, {
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+  })
 }
 
 // 注册接口
@@ -15,7 +17,9 @@ export const userRegisterService = (data) => {
   for (const key in data) {
     params.append(key, data[key])
   }
-  return request.post('/user/register', params)
+  return request.post('/user/register', params, {
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+  })
 }
 
 // 获取用户基本信息
@@ -30,24 +34,12 @@ export const userUpdateInfoService = (data) => {
 
 // 更新用户头像
 export const userUpdateAvatarService = (avatarUrl) => {
-  return request.patch(
-    '/user/updateAvatar',
-    {
-      avatarUrl,
-    },
-    {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-    },
-  )
+  return request.patch('/user/updateAvatar', null, {
+    params: { avatarUrl },
+  })
 }
 
 // 更新用户密码
 export const userUpdatePasswordService = (data) => {
-  return request.patch('/user/updatePwd', data, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
+  return request.patch('/user/updatePwd', data)
 }
